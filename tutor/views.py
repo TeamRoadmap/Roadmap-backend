@@ -1,49 +1,90 @@
 from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from rest_framework.views import APIView
 from tutor.models import Tutor, Roadmap, Section, SubSection
 from tutor.serializer import RoadmapSerializer, SectionSerializer, SubSectionSerializer
 # tutor/roadmap/section/subsection/
 
 
-@api_view(['GET', 'POST'])
-def section(request):
-    if request.method == 'GET':
+class SectionGen(APIView):
+    def get(self, request):
         sections = Section.objects.all()
         serializer = SectionSerializer(sections, many=True)
         return Response(serializer.data)
-    elif request.method == 'POST':
+
+    def post(self, request):
         serializer = SectionSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=201)
         return Response(serializer.errors, status=400)
 
-@api_view(['GET', 'POST'])
-def subsection(request):
-    if request.method == 'GET':
+class RoadmapGen(APIView):
+    def get(self, request):
+        roadmaps = Roadmap.objects.all()
+        serializer = RoadmapSerializer(roadmaps, many=True)
+        return Response(serializer.data)
+    
+    def post(self, request):
+        serializer = RoadmapSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
+
+class SubSectionGen(APIView):
+    def get(self, request):
         subsections = SubSection.objects.all()
         serializer = SubSectionSerializer(subsections, many=True)
         return Response(serializer.data)
-    elif request.method == 'POST':
+
+    def post(self, request):
         serializer = SubSectionSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=201)
         return Response(serializer.errors, status=400)
 
-@api_view(['GET', 'POST'])
-def roadmap(request):
-    if request.method == 'GET':
-        roadmaps = Roadmap.objects.all()
-        serializer = RoadmapSerializer(roadmaps, many=True)
-        return Response(serializer.data)
-    elif request.method == 'POST':
-        serializer = RoadmapSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=201)
-        return Response(serializer.errors, status=400)
+
+# @api_view(['GET', 'POST'])
+# def section(request):
+#     if request.method == 'GET':
+#         sections = Section.objects.all()
+#         serializer = SectionSerializer(sections, many=True)
+#         return Response(serializer.data)
+#     elif request.method == 'POST':
+#         serializer = SectionSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=201)
+#         return Response(serializer.errors, status=400)
+
+# @api_view(['GET', 'POST'])
+# def subsection(request):
+#     if request.method == 'GET':
+#         subsections = SubSection.objects.all()
+#         serializer = SubSectionSerializer(subsections, many=True)
+#         return Response(serializer.data)
+#     elif request.method == 'POST':
+#         serializer = SubSectionSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=201)
+#         return Response(serializer.errors, status=400)
+
+# @api_view(['GET', 'POST'])
+# def roadmap(request):
+#     if request.method == 'GET':
+#         roadmaps = Roadmap.objects.all()
+#         serializer = RoadmapSerializer(roadmaps, many=True)
+#         return Response(serializer.data)
+#     elif request.method == 'POST':
+#         serializer = RoadmapSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=201)
+#         return Response(serializer.errors, status=400)
 
 
 
