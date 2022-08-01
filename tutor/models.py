@@ -1,7 +1,4 @@
 from django.db import models
-
-# tutor/roadmap/section/subsection/
-
 class Tutor(models.Model):
     user_id = models.CharField(max_length=255)
     password = models.CharField(max_length=255)

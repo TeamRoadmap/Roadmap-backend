@@ -2,47 +2,60 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from tutor.models import Tutor, Roadmap, Section, SubSection
-from tutor.serializer import RoadmapSerializer, SectionSerializer
+from tutor.serializer import RoadmapSerializer, SectionSerializer, SubSectionSerializer
 # tutor/roadmap/section/subsection/
 
 
-@api_view(['GET'])
-def roadmap_available(request):
-    roadmaps = Roadmap.objects.all()
-    sec = Section.objects.all()
-    section = list(Section.objects.all().values())
-    subsection = list(SubSection.objects.all().values())
+@api_view(['GET', 'POST'])
+def section(request):
+    if request.method == 'GET':
+        sections = Section.objects.all()
+        serializer = SectionSerializer(sections, many=True)
+        return Response(serializer.data)
+    elif request.method == 'POST':
+        serializer = SectionSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
 
-    f = []
-    for i in sec : 
-        f.append({
-            "id" : i.id,
-            "section_title" : i.section_title,
-            "section_description" : i.section_description,
-            # "roadmap" : i.roadmap.id,
-            "subsections" : subsection
-        })
+@api_view(['GET', 'POST'])
+def subsection(request):
+    if request.method == 'GET':
+        subsections = SubSection.objects.all()
+        serializer = SubSectionSerializer(subsections, many=True)
+        return Response(serializer.data)
+    elif request.method == 'POST':
+        serializer = SubSectionSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
 
-    d = []
-    for i in roadmaps : 
-        d.append({
-            "id" : i.id,
-            "course_name" : i.course_name,
-            "course_title" : i.course_title,
-            "course_description" : i.course_description,
-            "tutor" : i.tutor.id,
-            "sections" : f
-            #     "id" : sec.id,
-            #     "section_title" : sec.section_title,
-            #     "section_description" : sec.section_description,
-            #     "roadmap" : sec.roadmap.id,
-            #     "subsections" : subsection
-            # 
+@api_view(['GET', 'POST'])
+def roadmap(request):
+    if request.method == 'GET':
+        roadmaps = Roadmap.objects.all()
+        serializer = RoadmapSerializer(roadmaps, many=True)
+        return Response(serializer.data)
+    elif request.method == 'POST':
+        serializer = RoadmapSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
 
-        })
-    serializer = RoadmapSerializer(d, many=True)
-    serializer.sections = section
-    return Response(serializer.data)
+
+
+# @api_view(['GET'])
+# def roadmap_available(request):
+#     roadmaps = Roadmap.objects.all()
+#     sec = Section.objects.all()
+#     section = list(Section.objects.all().values())
+#     subsection = list(SubSection.objects.all().values())
+
+    # serializer = RoadmapSerializer(roadmaps, many=True)
+    # return Response(serializer.data)
 
 
     # b =  SectionSerializer(f, many=True)
@@ -57,30 +70,29 @@ def roadmap_available(request):
     # subsection = list(SubSection.objects.all().values())
     # return JsonResponse({"tutor": tutor, "roadmaps": roadmaps, "section":section, "subsection": subsection}, safe=False)
 
-@api_view(['POST'])
-def roadmap_create(request):
-    serializer = RoadmapSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=201)
-    else:
-        return Response(serializer.errors, status=400)
+# @api_view(['POST'])
+# def roadmap_create(request):
+#     serializer = RoadmapSerializer(data=request.data)
+#     if serializer.is_valid():
+#         serializer.save()
+#         return Response(serializer.data, status=201)
+#     else:
+#         return Response(serializer.errors, status=400)
 
-@api_view(['POST'])
-def section_create(request):
-    serializer = SectionSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=201)
-    else:
-        return Response(serializer.errors, status=400)
+# @api_view(['POST'])
+# def section_create(request):
+#     serializer = SectionSerializer(data=request.data)
+#     if serializer.is_valid():
+#         serializer.save()
+#         return Response(serializer.data, status=201)
+#     else:
+#         return Response(serializer.errors, status=400)
 
-@api_view(['POST'])
-def subsection_create(request):
-    serializer = SubSectionSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=201)
-    else:
-        return Response(serializer.errors, status=400)
-        
+# @api_view(['POST'])
+# def subsection_create(request):
+#     serializer = SubSectionSerializer(data=request.data)
+#     if serializer.is_valid():
+#         serializer.save()
+#         return Response(serializer.data, status=201)
+#     else:
+#         return Response(serializer.errors, status=400)
