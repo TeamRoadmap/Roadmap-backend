@@ -1,50 +1,99 @@
 from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from rest_framework.generics import ListCreateAPIView
 from rest_framework.views import APIView
 from tutor.models import Tutor, Roadmap, Section, SubSection
 from tutor.serializer import RoadmapSerializer, SectionSerializer, SubSectionSerializer
 # tutor/roadmap/section/subsection/
 
+class SectionGen(ListCreateAPIView):
+    queryset = Section.objects.all()
+    serializer_class = SectionSerializer
 
-class SectionGen(APIView):
-    def get(self, request):
-        sections = Section.objects.all()
-        serializer = SectionSerializer(sections, many=True)
-        return Response(serializer.data)
+class RoadmapGen(ListCreateAPIView):
+    queryset = Roadmap.objects.all()
+    serializer_class = RoadmapSerializer
 
-    def post(self, request):
-        serializer = SectionSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=201)
-        return Response(serializer.errors, status=400)
+class SubSectionGen(ListCreateAPIView):
+    queryset = SubSection.objects.all()
+    serializer_class = SubSectionSerializer
 
-class RoadmapGen(APIView):
-    def get(self, request):
-        roadmaps = Roadmap.objects.all()
-        serializer = RoadmapSerializer(roadmaps, many=True)
-        return Response(serializer.data)
+
+
+
+
+
     
-    def post(self, request):
-        serializer = RoadmapSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=201)
-        return Response(serializer.errors, status=400)
+    
 
-class SubSectionGen(APIView):
-    def get(self, request):
-        subsections = SubSection.objects.all()
-        serializer = SubSectionSerializer(subsections, many=True)
-        return Response(serializer.data)
 
-    def post(self, request):
-        serializer = SubSectionSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=201)
-        return Response(serializer.errors, status=400)
+
+
+
+
+
+
+
+    # def get_serializer_context(self):
+    #     return {'request': self.request}
+
+    # def get_queryset(self):
+    #     return Section.objects.all()
+
+    # def get_serializer_class(self):
+    #     return SectionSerializer
+
+# class SectionGen(APIView):
+#     def get(self, request):
+#         sections = Section.objects.all()
+#         serializer = SectionSerializer(sections, many=True)
+#         return Response(serializer.data)
+
+#     def post(self, request):
+#         serializer = SectionSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=201)
+#         return Response(serializer.errors, status=400)
+
+
+    # def get(self, request):
+    #     roadmaps = Roadmap.objects.all()
+    #     serializer = RoadmapSerializer(roadmaps, many=True)
+    #     return Response(serializer.data)
+    
+    # def post(self, request):
+    #     serializer = RoadmapSerializer(data=request.data)
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         return Response(serializer.data, status=201)
+    #     return Response(serializer.errors, status=400)
+
+
+    # def get(self, request):
+    #     subsections = SubSection.objects.all()
+    #     serializer = SubSectionSerializer(subsections, many=True)
+    #     return Response(serializer.data)
+    
+    # def post(self, request):
+    #     serializer = SubSectionSerializer(data=request.data)
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         return Response(serializer.data, status=201)
+    #     return Response(serializer.errors, status=400)
+# class SubSectionGen(APIView):
+#     def get(self, request):
+#         subsections = SubSection.objects.all()
+#         serializer = SubSectionSerializer(subsections, many=True)
+#         return Response(serializer.data)
+
+#     def post(self, request):
+#         serializer = SubSectionSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=201)
+#         return Response(serializer.errors, status=400)
 
 
 # @api_view(['GET', 'POST'])
