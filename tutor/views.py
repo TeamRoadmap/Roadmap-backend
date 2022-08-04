@@ -1,13 +1,19 @@
 from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from rest_framework.generics import ListCreateAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.views import APIView
+# from rest_framework import generics
 from tutor.models import Tutor, Roadmap, Section, SubSection
 from tutor.serializer import RoadmapSerializer, SectionSerializer, SubSectionSerializer
 # tutor/roadmap/section/subsection/
+# sjhdbfjshdakbf
 
 class SectionGen(ListCreateAPIView):
+    queryset = Section.objects.all()
+    serializer_class = SectionSerializer
+
+class SectionGenDetail(RetrieveUpdateDestroyAPIView):
     queryset = Section.objects.all()
     serializer_class = SectionSerializer
 
@@ -15,7 +21,15 @@ class RoadmapGen(ListCreateAPIView):
     queryset = Roadmap.objects.all()
     serializer_class = RoadmapSerializer
 
+class RoadmapGenDetail(RetrieveUpdateDestroyAPIView):
+    queryset = Roadmap.objects.all()
+    serializer_class = RoadmapSerializer
+
 class SubSectionGen(ListCreateAPIView):
+    queryset = SubSection.objects.all()
+    serializer_class = SubSectionSerializer
+
+class SubSectionGenDetail(RetrieveUpdateDestroyAPIView):
     queryset = SubSection.objects.all()
     serializer_class = SubSectionSerializer
 
