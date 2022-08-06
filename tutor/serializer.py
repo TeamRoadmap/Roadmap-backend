@@ -2,10 +2,19 @@ from rest_framework import serializers
 from .models import Tutor, Section, SubSection, Roadmap
 
 #—————serializers.py—————
+
 class TutorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tutor
-        fields = ('user_id', 'password')
+        fields = '__all__'
+    
+    def create(self, data):
+        return Tutor.objects.create(**data)
+    
+# class TutorSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Tutor
+#         fields = ('user_id', 'password')
 
 class SubSectionSerializer(serializers.ModelSerializer):
     class Meta:
@@ -15,10 +24,10 @@ class SubSectionSerializer(serializers.ModelSerializer):
     def create(self, data):
         return SubSection.objects.create(**data)
 class SectionSerializer(serializers.ModelSerializer):
-    subsections = SubSectionSerializer(many=True, read_only=True)
+    # subsections = SubSectionSerializer(many=True, read_only=True)
     class Meta:
         model = Section
-        fields = ('__all__')
+        fields = '__all__'
     
     def create(self, data):
         return Section.objects.create(**data)
@@ -26,7 +35,7 @@ class RoadmapSerializer(serializers.ModelSerializer):
     sections = SectionSerializer(many=True, read_only=True)
     class Meta:
         model = Roadmap
-        fields = ('__all__')
+        fields = '__all__'
     
     def create(self, data):
         return Roadmap.objects.create(**data)

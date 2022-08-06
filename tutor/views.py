@@ -1,37 +1,67 @@
+from django.contrib.auth.models import User
 from django.shortcuts import render
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+# from rest_framework.decorators import api_view
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, CreateAPIView
 from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import BasicAuthentication, TokenAuthentication
 # from rest_framework import generics
 from tutor.models import Tutor, Roadmap, Section, SubSection
-from tutor.serializer import RoadmapSerializer, SectionSerializer, SubSectionSerializer
+from tutor.serializer import RoadmapSerializer, SectionSerializer, SubSectionSerializer, TutorSerializer
+from rest_framework.authtoken.models import Token
+
+
+# users = User.objects.all()
+# for user in users:
+#     token = Token.objects.get_or_create(user=user)
+#     print(token)
+
+
 # tutor/roadmap/section/subsection/
 # sjhdbfjshdakbf
 
+class TutorReg(ListCreateAPIView):
+    serializer_class = TutorSerializer
+    queryset = Tutor.objects.all()
+
+class TutorLogin(APIView):
+    def post(self, request, *args, **kwargs):
+        email = request.data.get('email')
+        password = request.data.get('password')
+        try:
+            tutor = Tutor.objects.get(email=email, password=password)
+            return Response({"message": "Tutor logged in successfully"})
+        except:
+            return Response({"message": "Invalid credentials"})
+
 class SectionGen(ListCreateAPIView):
-    queryset = Section.objects.all()
     serializer_class = SectionSerializer
+    queryset = Section.objects.all()
 
 class SectionGenDetail(RetrieveUpdateDestroyAPIView):
-    queryset = Section.objects.all()
     serializer_class = SectionSerializer
+    queryset = Section.objects.all()
+    
 
 class RoadmapGen(ListCreateAPIView):
-    queryset = Roadmap.objects.all()
+    # permission_classes = [IsAuthenticated]
+    # authentication_classes = [TokenAuthentication]
     serializer_class = RoadmapSerializer
+    queryset = Roadmap.objects.all()
+    
 
 class RoadmapGenDetail(RetrieveUpdateDestroyAPIView):
-    queryset = Roadmap.objects.all()
     serializer_class = RoadmapSerializer
-
+    queryset = Roadmap.objects.all()
+    
 class SubSectionGen(ListCreateAPIView):
-    queryset = SubSection.objects.all()
     serializer_class = SubSectionSerializer
+    queryset = SubSection.objects.all()
 
 class SubSectionGenDetail(RetrieveUpdateDestroyAPIView):
-    queryset = SubSection.objects.all()
     serializer_class = SubSectionSerializer
+    queryset = SubSection.objects.all()
 
 
 
