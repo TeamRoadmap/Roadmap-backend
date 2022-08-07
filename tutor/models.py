@@ -4,15 +4,20 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
+
+class User(AbstractUser):
+    is_tutor = models.BooleanField(default=False)
 
 class Tutor(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     email = models.CharField(max_length=255)
     password = models.CharField(max_length=255)
 
     def __str__(self):
-        return self.email
+        return self.user.username
 
 class Roadmap(models.Model):
     course_name = models.CharField(max_length=255)

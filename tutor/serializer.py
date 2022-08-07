@@ -6,7 +6,7 @@ from .models import Tutor, Section, SubSection, Roadmap
 class TutorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tutor
-        fields = '__all__'
+        fields = ('first_name', 'last_name', 'email', 'password')
     
     def create(self, data):
         return Tutor.objects.create(**data)
