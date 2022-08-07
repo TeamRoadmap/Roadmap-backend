@@ -3,11 +3,12 @@ from django.conf import settings
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
+from django.contrib.auth.models import User
 
 class Tutor(models.Model):
-    first_name = models.CharField(max_length=255, default='suraj')
-    last_name = models.CharField(max_length=255, default='singh')
-    email = models.CharField(max_length=255, default='abc@crework.com')
+    first_name = models.CharField(max_length=255)
+    last_name = models.CharField(max_length=255)
+    email = models.CharField(max_length=255)
     password = models.CharField(max_length=255)
 
     def __str__(self):
