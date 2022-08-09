@@ -1,15 +1,15 @@
 from rest_framework import serializers
-from .models import Tutor, Section, SubSection, Roadmap
+from .models import Section, SubSection, Roadmap #Tutor
 
 #—————serializers.py—————
 
-class TutorSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Tutor
-        fields = ('first_name', 'last_name', 'email', 'password')
+# class TutorSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Tutor
+#         fields = ('first_name', 'last_name', 'email', 'password')
     
-    def create(self, data):
-        return Tutor.objects.create(**data)
+#     def create(self, data):
+#         return Tutor.objects.create(**data)
     
 # class TutorSerializer(serializers.ModelSerializer):
 #     class Meta:

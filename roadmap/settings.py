@@ -82,7 +82,7 @@ WSGI_APPLICATION = 'roadmap.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'roadmap',
+        'NAME': 'roadmap3',
         'HOST': 'localhost',
         'USER': 'root',
         'PASSWORD': 'password',
@@ -109,7 +109,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-AUTH_USER_MODEL = 'tutor.User'
+AUTH_USER_MODEL = 'tutor.AuthUser'
 
 
 # Internationalization

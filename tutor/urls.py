@@ -5,7 +5,7 @@ from rest_framework.authtoken.views import obtain_auth_token
 
 # from . import views
 from pprint import pprint
-from tutor.views import RoadmapGen, SectionGen, SubSectionGen, SectionGenDetail, SubSectionGenDetail, RoadmapGenDetail, TutorReg, TutorLogin # roadmap_create, section_create, subsection_create #, section_update, subsection_update, section_delete, subsection_delete, roadmap_delete
+from tutor.views import RoadmapGen, SectionGen, SubSectionGen, SectionGenDetail, SubSectionGenDetail, RoadmapGenDetail #, TutorReg #TutorLogin # roadmap_create, section_create, subsection_create #, section_update, subsection_update, section_delete, subsection_delete, roadmap_delete
 
 # router = SimpleRouter()
 # router.register(r'roadmap_create', RoadmapGen.as_view())
@@ -14,12 +14,12 @@ from tutor.views import RoadmapGen, SectionGen, SubSectionGen, SectionGenDetail,
 
 # pprint(router.urls)
 
-
+# 
 urlpatterns = [
     # path('tokenlogin/', views.obtain_auth_token),
     path('roadmap_create/', RoadmapGen.as_view()),
-    path('reg/', TutorReg.as_view()),
-    path('login/', TutorLogin.as_view()),
+    # path('reg/', TutorReg.as_view()),
+    # path('login/', TutorLogin.as_view()),
     path('roadmap_create/<int:pk>', RoadmapGenDetail.as_view()),
     path('section_create/', SectionGen.as_view()),
     path('section_create/<int:pk>/', SectionGenDetail.as_view()),
