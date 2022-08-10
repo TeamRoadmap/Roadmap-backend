@@ -5,7 +5,7 @@ from rest_framework.authtoken.views import obtain_auth_token
 from rest_framework_simplejwt import views as jwt_views
 # from . import views
 from pprint import pprint
-from tutor.views import RoadmapGen, SectionGen, SubSectionGen, SectionGenDetail, SubSectionGenDetail, RoadmapGenDetail, Signup #AuthRegistrationView, AuthLoginView,  #, Login #, TutorReg #TutorLogin # roadmap_create, section_create, subsection_create #, section_update, subsection_update, section_delete, subsection_delete, roadmap_delete
+from tutor.views import RoadmapGen, SectionGen, SubSectionGen, SectionGenDetail, SubSectionGenDetail, RoadmapGenDetail, Signup #, Login #AuthRegistrationView, AuthLoginView,  #, Login #, TutorReg #TutorLogin # roadmap_create, section_create, subsection_create #, section_update, subsection_update, section_delete, subsection_delete, roadmap_delete
 
 # router = SimpleRouter()
 # router.register(r'roadmap_create', RoadmapGen.as_view())
@@ -25,7 +25,7 @@ urlpatterns = [
     path('section_create/<int:pk>/', SectionGenDetail.as_view()),
     path('subsection_create/', SubSectionGen.as_view()),
     path('subsection_create/<int:pk>/', SubSectionGenDetail.as_view()),
-    path('auth/login/', obtain_auth_token),
+    path('login/', obtain_auth_token),
 
 
     # path('token/obtain/', jwt_views.TokenObtainPairView.as_view(), name='token_create'),

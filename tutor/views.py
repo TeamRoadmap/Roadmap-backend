@@ -9,60 +9,10 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 # from rest_framework import generics
 from tutor.models import Roadmap, Section, SubSection, AuthUser
-from tutor.serializer import RoadmapSerializer, SectionSerializer, SubSectionSerializer, AuthUserSerializer #RegistrationSerializer, LoginSerializer, ListSerializer, #, AuthLoginUserSerializer
+from tutor.serializer import RoadmapSerializer, SectionSerializer, SubSectionSerializer, AuthUserSerializer, AuthCustomTokenSerializer #RegistrationSerializer, LoginSerializer, ListSerializer, #, AuthLoginUserSerializer
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework import status
-
-
-
-# class AuthRegistrationView(APIView):
-#     serializer_class = RegistrationSerializer
-#     # permission_classes = (AllowAny,)
-#     def post(self, request):
-#         serializer = self.serializer_class(data=request.data)
-#         serializer.is_valid(raise_exception=True)
-#         user = serializer.save()
-#         return Response({
-#             "user": LoginSerializer(user, context=self.get_serializer_context()).data,
-#             "token": Token.objects.get(user=user).key
-#         })
-
-# class AuthLoginView(APIView):
-#     serializer_class = LoginSerializer
-#     def post(self, request):
-#         serializer = self.serializer_class(data=request.data)
-#         serializer.is_valid(raise_exception=True)
-#         user = serializer.validated_data
-#         return Response({
-#             "user": RegistrationSerializer(user, context=self.get_serializer_context()).data,
-#             "token": Token.objects.get(user=user).key
-#         })
-
-# class ListView(APIView):
-#     serializer_class = ListSerializer
-#     permission_classes = (IsAuthenticated,)
-
-#     def get(self, request):
-#         user = request.AuthUser
-#         if user.role == 'tutor':
-#             return Response(AuthUserSerializer(user, context=self.get_serializer_context()).data)
-
-
-# users = User.objects.all()
-# for user in users:
-#     token = Token.objects.get_or_create(user=user)
-#     print(token)
-
-
-# tutor/roadmap/section/subsection/
-# sjhdbfjshdakbf
-
-# class TutorReg(ListCreateAPIView):
-#     serializer_class = TutorSerializer
-#     queryset = Tutor.objects.all()
-
-
 
 
 # class TutorLogin(ObtainAuthToken):
@@ -84,9 +34,55 @@ class Signup(CreateAPIView):
         user = serializer.save()
         headers = self.get_success_headers(serializer.data)
         token, created = Token.objects.get_or_create(user=serializer.instance)
-        return Response({'token': token.key}, status=status.HTTP_201_CREATED, headers=headers)
+        return Response({
+            'token': token.key,
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+            'email': user.email,
+            'role': user.role
+            }, status=status.HTTP_201_CREATED, headers=headers)
 
 
+# class Login(ObtainAuthToken):
+#     serializer_class = AuthCustomTokenSerializer
+
+#     def post(self, request):
+#         email = request.data['email']
+#         password = request.data['password']     
+#         user = authenticate(email=email, password=password)
+#         if user is None:
+#             raise serializers.ValidationError('A user with this email and password is not found.')
+#         try:
+#             refresh = RefreshToken.for_user(user)
+#             refresh_token = str(refresh)
+#             access_token = str(refresh.access_token)
+
+#             update_last_login(None, user)
+
+#             return Response({
+#                 'email': email,
+#                 'password': password,
+#                 'access': access_token,
+#                 'refresh': refresh_token,
+#                 'role': user.role
+#             })
+
+
+
+
+# class Login(ObtainAuthToken):
+#     def post(self, request, *args, **kwargs):
+#         serializer = self.serializer_class(data=request.data, context={'request': request})
+#         serializer.is_valid(raise_exception=True)
+#         user = serializer.validated_data['user']
+#         token, created = Token.objects.get_or_create(user=user)
+#         return Response({
+#             'token': token.key,
+#             'first_name': user.first_name,
+#             'last_name': user.last_name,
+#             'email': user.email,
+#             'role': user.role
+#             })
 
 # class Login(CreateAPIView):
 
