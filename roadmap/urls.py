@@ -18,6 +18,5 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('roadmap/', include('tutor.urls')),
     path('api/auth/', include('tutor.urls'))
 ]
