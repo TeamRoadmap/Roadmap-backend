@@ -1,3 +1,4 @@
+import re
 from django.contrib.auth.models import User
 from django.shortcuts import render
 from rest_framework.response import Response
@@ -5,13 +6,47 @@ from rest_framework.response import Response
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, CreateAPIView
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.authentication import BasicAuthentication, TokenAuthentication
+from rest_framework.authentication import TokenAuthentication
 # from rest_framework import generics
-from tutor.models import Roadmap, Section, SubSection #Tutor,
-from tutor.serializer import RoadmapSerializer, SectionSerializer, SubSectionSerializer #, TutorSerializer
+from tutor.models import Roadmap, Section, SubSection, AuthUser
+from tutor.serializer import RoadmapSerializer, SectionSerializer, SubSectionSerializer, AuthUserSerializer #RegistrationSerializer, LoginSerializer, ListSerializer, #, AuthLoginUserSerializer
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework import status
 
+
+
+# class AuthRegistrationView(APIView):
+#     serializer_class = RegistrationSerializer
+#     # permission_classes = (AllowAny,)
+#     def post(self, request):
+#         serializer = self.serializer_class(data=request.data)
+#         serializer.is_valid(raise_exception=True)
+#         user = serializer.save()
+#         return Response({
+#             "user": LoginSerializer(user, context=self.get_serializer_context()).data,
+#             "token": Token.objects.get(user=user).key
+#         })
+
+# class AuthLoginView(APIView):
+#     serializer_class = LoginSerializer
+#     def post(self, request):
+#         serializer = self.serializer_class(data=request.data)
+#         serializer.is_valid(raise_exception=True)
+#         user = serializer.validated_data
+#         return Response({
+#             "user": RegistrationSerializer(user, context=self.get_serializer_context()).data,
+#             "token": Token.objects.get(user=user).key
+#         })
+
+# class ListView(APIView):
+#     serializer_class = ListSerializer
+#     permission_classes = (IsAuthenticated,)
+
+#     def get(self, request):
+#         user = request.AuthUser
+#         if user.role == 'tutor':
+#             return Response(AuthUserSerializer(user, context=self.get_serializer_context()).data)
 
 
 # users = User.objects.all()
@@ -37,6 +72,35 @@ from rest_framework.authtoken.views import ObtainAuthToken
 #         user = serializer.validated_data['user']
 #         token, created = Token.objects.get_or_create(user=user)
 #         return Response({'token': token.key})
+
+
+class Signup(CreateAPIView):
+    serializer_class = AuthUserSerializer
+    queryset = AuthUser.objects.all()
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.save()
+        headers = self.get_success_headers(serializer.data)
+        token, created = Token.objects.get_or_create(user=serializer.instance)
+        return Response({'token': token.key}, status=status.HTTP_201_CREATED, headers=headers)
+
+
+
+# class Login(CreateAPIView):
+
+# class Login(APIView):
+#     serializer_class = AuthUserSerializer
+#     queryset = AuthUser.objects.all()
+#     def post(self, request, *args, **kwargs):
+#         serializer = self.serializer_class(data=request.data, context={'request': request})
+#         serializer.is_valid(raise_exception=True)
+#         user = serializer.validated_data['email']
+#         token, created = Token.objects.get_or_create(user=user)
+#         return Response({'token': token.key})
+
+
 
 class SectionGen(ListCreateAPIView):
     permission_classes = [IsAuthenticated]

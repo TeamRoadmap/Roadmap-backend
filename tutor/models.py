@@ -14,6 +14,8 @@ class UserManager(BaseUserManager):
     def _create_user(self, email, password, **extra_fields):
         if not email:
             raise ValueError('The given email must be set')
+        if not password:
+            raise ValueError('The given password must be set')
         email = self.normalize_email(email)
         user = self.model(email=email, **extra_fields)
         user.set_password(password)
@@ -74,7 +76,7 @@ class Roadmap(models.Model):
     course_name = models.CharField(max_length=255)
     course_title = models.CharField(max_length=255)
     course_description = models.TextField()
-    # tutor = NewUser.ForeignKey(NewUser, on_delete=models.CASCADE)
+    tutor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.course_name
