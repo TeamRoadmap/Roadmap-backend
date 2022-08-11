@@ -10,7 +10,7 @@ class AuthUserSerializer(serializers.ModelSerializer):
         fields = ('first_name', 'last_name', 'email', 'password', 'role')
     
     def create(self, data):
-        return AuthUser.objects.create(**data)
+        return AuthUser.objects.create_user(**data)
 
 class SubSectionSerializer(serializers.ModelSerializer):
     class Meta:
