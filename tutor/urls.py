@@ -13,5 +13,5 @@ urlpatterns = [
     path('section_create/<int:pk>/', views.SectionGenDetail.as_view()),
     path('subsection_create/', views.SubSectionGen.as_view()),
     path('subsection_create/<int:pk>/', views.SubSectionGenDetail.as_view()),
-    path('login/', obtain_auth_token),
+    path('login/', views.AuthLoginUser.as_view()),
 ] 
