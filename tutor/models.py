@@ -75,7 +75,7 @@ class Roadmap(models.Model):
     course_name = models.CharField(max_length=255)
     course_title = models.CharField(max_length=255)
     course_description = models.TextField()
-    tutor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    tutor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, limit_choices_to={'role': 'T'})
 
     def __str__(self):
         return self.course_name
